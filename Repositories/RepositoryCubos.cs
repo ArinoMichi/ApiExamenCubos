@@ -27,17 +27,29 @@ namespace ApiExamenCubos.Repositories
         }
         public async Task<Usuario> GetUsuarioAsync(int idUser)
         {
+            
             return await this.context.Usuarios.FirstOrDefaultAsync(z => z.IdUsuario == idUser);
         }
 
         public async Task<List<Cubo>> GetCubosAsync()
         {
-            return await this.context.Cubos.ToListAsync();
+            List<Cubo> cubos = await this.context.Cubos.ToListAsync();
+            foreach(Cubo cubo in cubos)
+            {
+                cubo.Imagen = "https://storageaccountcubos.blob.core.windows.net/cubos/" + cubo.Imagen;
+            }
+            return cubos;
+            
         }
 
         public async Task<List<Cubo>> GetCubosMarcaAsync(string marca)
         {
-            return await this.context.Cubos.Where(x => x.Marca == marca).ToListAsync();
+            List<Cubo> cubos = await this.context.Cubos.Where(x => x.Marca == marca).ToListAsync();
+            foreach (Cubo cubo in cubos)
+            {
+                cubo.Imagen = "https://storageaccountcubos.blob.core.windows.net/cubos/" + cubo.Imagen;
+            }
+            return cubos;
         }
 
         public async Task<List<CompraCubos>> GetPedidosUserAsync(int idUser)

@@ -87,6 +87,7 @@ namespace ApiExamenCubos.Controllers
         {
             string json = HttpContext.User.FindFirst(x => x.Type == "UserData").Value;
             Usuario user = JsonConvert.DeserializeObject<Usuario>(json);
+            user.Imagen = "https://storageaccountcubos.blob.core.windows.net/cubos/" + user.Imagen;
             Usuario currentUser = await this.repo.GetUsuarioAsync(user.IdUsuario);
             return currentUser;
         }
